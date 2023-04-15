@@ -44,7 +44,10 @@ export default function Home() {
   return (
     <div className="bg-black text-white w-screen h-screen relative">
       <div className={`absolute w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center ${isOpen ? "" : "hidden"}`}>
-        <ReactLoading color="#fff" type="spinningBubbles" />
+        <div>
+          <div>{`「${input}」と入力した人を探しています……`}</div>
+          <ReactLoading color="#fff" type="spinningBubbles" />
+        </div>
       </div>
       <div className="w-full h-full flex justify-center items-center">
         {showsError ? (
