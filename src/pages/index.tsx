@@ -51,7 +51,7 @@ export default function Home() {
           <div className="px-10 flex flex-col items-center gap-y-3">
             <div className="flex flex-col gap-y-2 py-2">
               <div>開いてくれてありがとうございます！</div>
-              <div>ですがすみません、実はまだ開発中です。</div>
+              <div>ですがすみません、実はまだ開発中なんです……</div>
               <div>
                 メールアドレスを記入いただければ、
                 <br />
