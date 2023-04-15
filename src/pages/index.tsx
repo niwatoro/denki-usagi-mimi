@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react";
+import { MouseEvent, ReactNode, useState } from "react";
 import ReactLoading from "react-loading";
 
 export default function Home() {
@@ -105,6 +105,10 @@ export default function Home() {
   );
 }
 
+type MyButtonProps = {
+  onClick: (e: MouseEvent<HTMLButtonElement>) => void;
+  children: ReactNode;
+};
 const MyButton = ({ onClick, children }: MyButtonProps) => {
   return (
     <button className="h-fit w-fit rounded-lg px-5 py-3 bg-red-500 border-red-300 border-b-4 active:border-0" onClick={onClick}>
