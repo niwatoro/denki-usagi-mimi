@@ -1,5 +1,6 @@
 import { MouseEvent, ReactNode, useState } from "react";
 import ReactLoading from "react-loading";
+import { AudioCall } from "./components/audioCall";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,16 +9,14 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [email, setEmail] = useState("");
 
+  const [audioStream, setAudioStream] = useState<number>();
+
   const handleFind = (e: MouseEvent<HTMLButtonElement>) => {
     if (input === "") {
       alert("誰かと話したい言葉を入力してください");
       return;
     }
     setIsOpen(true);
-    setTimeout(() => {
-      setIsOpen(false);
-      setShowsError(true);
-    }, 10000);
   };
 
   const handleBack = (e: MouseEvent<HTMLButtonElement>) => {
@@ -43,10 +42,11 @@ export default function Home() {
 
   return (
     <div className="bg-black text-white w-screen h-screen relative">
-      <div className={`absolute w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center ${isOpen ? "" : "hidden"}`}>
+      <div className={`absolute w-full h-full bg-[rgba(0,0,0,0.8)] flex justify-center items-center ${isOpen ? "" : "hidden"}`}>
         <div className="flex flex-col items-center gap-y-3">
           <div>{`「${input}」と入力した人を探しています……`}</div>
           <ReactLoading color="#fff" type="spinningBubbles" />
+          <AudioCall />
         </div>
       </div>
       <div className="w-full h-full flex justify-center items-center">
@@ -92,7 +92,7 @@ export default function Home() {
             <input
               type="text"
               placeholder="誰かと話したい言葉を入力"
-              className="h-full w-full rounded-lg outline-none px-2 py-3 text-xl text-black"
+              className="h-full max-w-[400px] w-full rounded-lg outline-none px-2 py-3 text-xl text-black"
               onChange={(e) => {
                 setInput(e.target.value);
               }}
