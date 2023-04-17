@@ -1,6 +1,5 @@
 import { MouseEvent, ReactNode, useState } from "react";
 import ReactLoading from "react-loading";
-import { AudioCall } from "./components/audioCall";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,7 +45,6 @@ export default function Home() {
         <div className="flex flex-col items-center gap-y-3">
           <div>{`「${input}」と入力した人を探しています……`}</div>
           <ReactLoading color="#fff" type="spinningBubbles" />
-          <AudioCall />
         </div>
       </div>
       <div className="w-full h-full flex justify-center items-center">
