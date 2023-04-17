@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import SimplePeer from "simple-peer";
 import io, { Socket } from "socket.io-client";
 
-export const AudioCall: FC = () => {
+const AudioCall: FC = () => {
   const [stream, setStream] = useState<MediaStream>();
   const [peer, setPeer] = useState<SimplePeer.Instance | null>(null);
   const socketRef = useRef<Socket | null>(null);
@@ -68,3 +68,5 @@ export const AudioCall: FC = () => {
     </div>
   );
 };
+
+export default AudioCall;
