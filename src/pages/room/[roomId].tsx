@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import Pusher, { Members, PresenceChannel } from "pusher-js";
 import { useEffect, useRef, useState } from "react";
-import styles from "../../styles/Room.module.css";
 
 interface Props {
   userName: string;
