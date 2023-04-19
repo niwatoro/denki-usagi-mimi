@@ -25,8 +25,10 @@ export default function Home({ handleCredChange, handleLogin }: Props) {
 
       <form onSubmit={handleLogin}>
         <h1>Lets join a room!</h1>
-        <input onChange={(e) => setUsername(e.target.value)} value={username} placeholder="Enter Username" />
-        <input onChange={(e) => setRoomname(e.target.value)} value={roomname} placeholder="Enter Room Name" />
+        <div className="flex">
+          <input onChange={(e) => setUsername(e.target.value)} value={username} placeholder="Enter Username" />
+          <input onChange={(e) => setRoomname(e.target.value)} value={roomname} placeholder="Enter Room Name" />
+        </div>
         <button type="submit">Join Room</button>
       </form>
     </div>
