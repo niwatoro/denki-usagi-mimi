@@ -253,8 +253,8 @@ export default function Room({ userName, roomName }: Props) {
 
   return (
     <div>
-      <div className={styles["videos-container"]}>
-        <div className={styles["video-container"]}>
+      <div>
+        <div>
           <video autoPlay ref={userVideo} muted />
           <div>
             <button onClick={toggleMic} type="button">
@@ -268,7 +268,7 @@ export default function Room({ userName, roomName }: Props) {
             </button>
           </div>
         </div>
-        <div className={styles["video-container"]}>
+        <div>
           <video autoPlay ref={partnerVideo} />
         </div>
       </div>
