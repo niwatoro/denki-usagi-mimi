@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 interface Props {
   userName: string;
   roomName: string;
+  handleCredChange: (username: string, roomname: string) => void;
+  handleLogin: () => void;
 }
 
 const ICE_SERVERS = {
@@ -22,7 +24,7 @@ const ICE_SERVERS = {
   ],
 };
 
-export default function Room({ userName, roomName }: Props) {
+export default function Room({ userName, roomName, handleCredChange, handleLogin }: Props) {
   const [micActive, setMicActive] = useState(true);
   const [cameraActive, setCameraActive] = useState(true);
   const router = useRouter();
