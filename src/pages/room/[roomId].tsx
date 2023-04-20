@@ -240,6 +240,7 @@ export default function Room({ word, username, roomname }: Props) {
       rtcConnection.current = null;
     }
 
+    alert("相手がこの部屋を抜けました トップに戻ります");
     router.push("/");
   };
 
