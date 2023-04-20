@@ -20,7 +20,7 @@ export default function Home({ handleCredChange, handleLogin }: Props) {
     <div>
       <Head>
         <title>電気ウサギの耳 - 話したいことないですか？</title>
-        <meta name="description" content="Use Native WebRTC API for video conferencing" />
+        <meta name="description" content="誰でもいいから話してみたいことがある人に" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="h-screen w-screen bg-black flex flex-col justify-center items-center">
