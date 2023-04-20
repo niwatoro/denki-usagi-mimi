@@ -1,5 +1,6 @@
 // pages/index.tsx
 import Head from "next/head";
+import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 
 interface Props {
@@ -18,11 +19,14 @@ export default function Home({ handleCredChange, handleLogin }: Props) {
   return (
     <div>
       <Head>
-        <title>ライト - </title>
+        <title>電気ウサギの耳 - 話したいことないですか？</title>
         <meta name="description" content="Use Native WebRTC API for video conferencing" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="h-screen w-screen bg-black flex justify-center items-center">
+      <div className="h-screen w-screen bg-black flex flex-col justify-center items-center">
+        <div className="h-24 mb-5 flex items-start">
+          <Image className="w-full h-full" src={"../logo.svg"} alt="logo" width={999} height={999} />
+        </div>
         <form onSubmit={handleLogin}>
           <div className="flex flex-col items-center">
             <MyInput onChange={(e) => setUsername(e.target.value)} value={username} placeholder="📛名前を入力" />
