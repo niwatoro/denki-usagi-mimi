@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
+import Script from "next/script";
 import { useState } from "react";
 import Layout from "./components/layout";
 
@@ -28,18 +29,28 @@ export default function App({ Component, pageProps }: AppProps) {
       });
   };
   return (
-    <Layout>
-      <Component
-        handleCredChange={(username: string, word: string) => {
-          setUsername(username);
-          setWord(word);
-        }}
-        word={word}
-        username={username}
-        roomname={roomname}
-        handleLogin={handleLogin}
-        {...pageProps}
-      />
-    </Layout>
+    <>
+      <Script async src="https://www.googletagmanager.com/gtag/js?id=G-J5BJLBD6KN"></Script>
+      <Script>
+        {`window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J5BJLBD6KN');`}
+      </Script>
+      <Layout>
+        <Component
+          handleCredChange={(username: string, word: string) => {
+            setUsername(username);
+            setWord(word);
+          }}
+          word={word}
+          username={username}
+          roomname={roomname}
+          handleLogin={handleLogin}
+          {...pageProps}
+        />
+      </Layout>
+    </>
   );
 }
