@@ -1,12 +1,12 @@
+import Image from "next/image";
 import { useRouter } from "next/router";
 import Pusher, { Members, PresenceChannel } from "pusher-js";
 import { useEffect, useRef, useState } from "react";
 
 interface Props {
-  userName: string;
-  roomName: string;
-  handleCredChange: (username: string, roomname: string) => void;
-  handleLogin: () => void;
+  word: string;
+  username: string;
+  roomname: string;
 }
 
 const ICE_SERVERS = {
@@ -24,9 +24,11 @@ const ICE_SERVERS = {
   ],
 };
 
-export default function Room({ userName, roomName, handleCredChange, handleLogin }: Props) {
+export default function Room({ word, username, roomname }: Props) {
+  const [partnerName, setPartnerName] = useState(null);
+
   const [micActive, setMicActive] = useState(true);
-  const [cameraActive, setCameraActive] = useState(true);
+  const [cameraActive, setCameraActive] = useState(false);
   const router = useRouter();
 
   const host = useRef(false);
@@ -45,11 +47,11 @@ export default function Room({ userName, roomName, handleCredChange, handleLogin
     pusherRef.current = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
       authEndpoint: "/api/pusher/auth",
       auth: {
-        params: { username: userName },
+        params: { username: username },
       },
       cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
     });
-    channelRef.current = pusherRef.current.subscribe(`presence-${roomName}`) as PresenceChannel;
+    channelRef.current = pusherRef.current.subscribe(`presence-${roomname}`) as PresenceChannel;
     // when a users subscribe
     channelRef.current.bind("pusher:subscription_succeeded", (members: Members) => {
       if (members.count === 1) {
@@ -62,8 +64,25 @@ export default function Room({ userName, roomName, handleCredChange, handleLogin
         // 3+ person joining will get sent back home
         // Can handle this however you'd like
         router.push("/");
+        alert("このルームはもう人でいっぱいです もう一度試してください");
       }
+
+      setPartnerNameFromEvent(members);
       handleRoomJoined();
+    });
+
+    const setPartnerNameFromEvent = (members: Members) => {
+      const memberNames = Object.keys(members.members);
+      const partnerId = memberNames.find((name) => name !== members.me.id);
+      if (partnerId !== undefined) {
+        setPartnerName(members.members[partnerId].username);
+      }
+    };
+
+    channelRef.current.bind("pusher:member_added", () => {
+      const members = channelRef.current?.members;
+      if (members === undefined) return;
+      setPartnerNameFromEvent(members);
     });
 
     // when a member leaves the chat
@@ -97,15 +116,15 @@ export default function Room({ userName, roomName, handleCredChange, handleLogin
     });
 
     return () => {
-      if (pusherRef.current) pusherRef.current.unsubscribe(`presence-${roomName}`);
+      if (pusherRef.current) pusherRef.current.unsubscribe(`presence-${roomname}`);
     };
-  }, [userName, roomName]);
+  }, [username, roomname]);
 
   const handleRoomJoined = () => {
     navigator.mediaDevices
       .getUserMedia({
         audio: true,
-        video: { width: 1280, height: 720 },
+        video: false,
       })
       .then((stream) => {
         /* store reference to the stream and provide it to the video element */
@@ -220,10 +239,12 @@ export default function Room({ userName, roomName, handleCredChange, handleLogin
       rtcConnection.current.close();
       rtcConnection.current = null;
     }
+
+    router.push("/");
   };
 
   const leaveRoom = () => {
-    // socketRef.current.emit('leave', roomName); // Let's the server know that user has left the room.
+    // socketRef.current.emit('leave', roomname); // Let's the server know that user has left the room.
 
     if (userVideo.current!.srcObject) {
       (userVideo.current!.srcObject as MediaStream).getTracks().forEach((track) => track.stop()); // Stops sending all tracks of User.
@@ -254,24 +275,26 @@ export default function Room({ userName, roomName, handleCredChange, handleLogin
   };
 
   return (
-    <div>
-      <div>
-        <div>
-          <video autoPlay ref={userVideo} muted />
-          <div>
+    <div className="h-screen w-screen bg-black overflow-hidden text-white">
+      <video className="hidden" autoPlay ref={userVideo} muted />
+      <video className="w-0 h-0" autoPlay ref={partnerVideo} />
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="flex flex-col items-center gap-y-2">
+          <div className="h-16 w-40 flex flex-col justify-end">
+            <div>話題：{word}</div>
+            <div>自分：@{username}</div>
+            <div>相手：{partnerName ?? "まだいません"}</div>
+          </div>
+          <div className="w-24 h-24 border-2 m-5 border-white rounded-full p-5">
             <button onClick={toggleMic} type="button">
-              {micActive ? "Mute Mic" : "UnMute Mic"}
-            </button>
-            <button onClick={leaveRoom} type="button">
-              Leave
-            </button>
-            <button onClick={toggleCamera} type="button">
-              {cameraActive ? "Stop Camera" : "Start Camera"}
+              <Image src={micActive ? "../unmute.svg" : "../mute.svg"} alt="mic" width={999} height={999} />
             </button>
           </div>
-        </div>
-        <div>
-          <video autoPlay ref={partnerVideo} />
+          <div className="h-16 flex items-end">
+            <button className="bg-blue-500 border-b-4 border-b-blue-300 rounded-lg py-3 pr-10 pl-8 text-white active:border-none" onClick={leaveRoom} type="button">
+              🏃🏻‍♂️部屋を抜ける
+            </button>
+          </div>
         </div>
       </div>
     </div>
