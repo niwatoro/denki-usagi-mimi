@@ -39,6 +39,8 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-# preto-raito
+### 電気ウサギの耳
 
-1. [Pusherを使ってWebRTCでリアルタイム通信を実装したこの記事](https://www.stackfive.io/work/webrtc/peer-to-peer-video-call-with-next-js-pusher-and-native-webrtc-apis)に従う。
+1. [Pusherを使ってWebRTCでリアルタイム通信を実装したこの記事](https://www.stackfive.io/work/webrtc/peer-to-peer-video-call-with-next-js-pusher-and-native-webrtc-apis)を丸コピする。
+
+2. [Next.jsでFirestoreのCRUD操作を実装したZennの記事]を参考にしながら、Firestoreに単語をDocとする親要素の子要素に部屋番号を残していく処理を書く。
